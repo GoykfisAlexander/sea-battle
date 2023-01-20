@@ -1,8 +1,8 @@
-import { useState } from "react";
 import "./App.css";
+import { useState } from "react";
 import { Box } from "./Components/Box";
 import { randomField } from "./utils";
-// let wounded = 0;
+
 const playerField = randomField();
 const pcField = randomField();
 const movePc = Array(100).fill(false);

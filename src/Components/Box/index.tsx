@@ -7,11 +7,11 @@ interface iPropsBox {
   movePlayer: boolean[];
   player: boolean;
   openPc: boolean[];
-  setOpenPc: any;
+  setOpenPc: (value: boolean[]) => void;
   playerField: number[];
   openPlayer: boolean[];
 }
-const boxes = ["aqua", "gold", "green", "olive", "indigo"];
+const colorsBoxes = ["aqua", "gold", "green", "olive", "indigo"];
 
 let idPcMove = NaN;
 
@@ -68,16 +68,14 @@ export const Box = ({
     }
     const pcMoved = () => {
       const nextMove = (id: number) => {
-        const nextMoves = [id + 1, id - 1, id + 10, id - 10]; //список следующих ходов
-        let z = Math.floor(Math.random() * 4); //рандомный индекс следующего хода
-        let x = Math.random() < 0.5 ? 0 : 1; //рандомный индекс по оси х
-        let y = Math.random() < 0.5 ? 2 : 3; //рандомный индекс по оси у
+        const nextMoves = [id + 1, id - 1, id + 10, id - 10];
+        let z = Math.floor(Math.random() * 4);
+        let x = Math.random() < 0.5 ? 0 : 1;
+        let y = Math.random() < 0.5 ? 2 : 3;
         let nextMov =
           wounded < 2 ? z : firstWound % 10 === idPcMove % 10 ? y : x;
         let res = nextMoves[nextMov];
         let dontGetHungUp = 0;
-        // console.log(`попал ${idPcMove}`);
-        // console.log(`следующий ход ${res}`);
 
         while (
           [
@@ -96,7 +94,6 @@ export const Box = ({
           res = nextMoves[nextMov];
           if (dontGetHungUp === 50) {
             nextMove(firstWound);
-            //  console.log("много циклов");
             break;
           }
         }
@@ -105,9 +102,8 @@ export const Box = ({
       };
       const attacksRandom = () => {
         if (!wounded) {
-          let random = Math.floor(Math.random() * 100); //рандомный индекс
+          let random = Math.floor(Math.random() * 100);
           while (openPlayer[random]) {
-            //пока не будет нужный индекс
             random = Math.floor(Math.random() * 100);
           }
 
@@ -115,11 +111,9 @@ export const Box = ({
         }
       };
       const attacks = (id: number) => {
-        // console.log(`ataka ${id}`);
-        movePc[id] = true; //делаем ход
-        openPlayer[id] = true; //открываем глаза компьютеру
+        movePc[id] = true;
+        openPlayer[id] = true;
         if (!playerField[id]) {
-          //промахнулись закончили
           return;
         }
         wounded++;
@@ -132,7 +126,6 @@ export const Box = ({
           e.includes(id)
         )[0];
         if (ship.every((e) => movePc[e])) {
-          //если убил то дай вижен вокруг и ищи снова
           ship.forEach((e) => reservedPush(openPlayer, e));
           wounded = 0;
           if (
@@ -174,8 +167,8 @@ export const Box = ({
               background: `radial-gradient(${
                 (player && movePc[index]) || (!player && movePlayer[index])
                   ? "red"
-                  : boxes[value]
-              },${boxes[value]} 50%)`,
+                  : colorsBoxes[value]
+              },${colorsBoxes[value]} 50%)`,
             }
           : {}
       }
