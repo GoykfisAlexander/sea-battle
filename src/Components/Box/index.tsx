@@ -7,7 +7,7 @@ interface iPropsBox {
   movePlayer: boolean[];
   player: boolean;
   openPc: boolean[];
-  setOpenPc: (value: boolean[]) => void;
+  setOpenPc: React.Dispatch<React.SetStateAction<boolean[]>>;
   playerField: number[];
   openPlayer: boolean[];
 }
